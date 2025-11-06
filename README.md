@@ -1,19 +1,4 @@
-# Momen Cursor Rules - Build Custom Frontends with Momen### Step 2: Cl### Step 3: Copy Rules to Your Project
-
-Copy the entire `.cursor` directory into your project root:
-
-```bash
-cp -r .cursor /path/to/your/project/
-```
-
-### Step 4: Configure MCP Server (Optional)Repository
-
-```bash
-git clone https://github.com/privateJiangyaokai/momen-cursor-rules.git
-cd momen-cursor-rules
-```
-
-### Step 3: Copy Rules to Your Project-as-a-Service
+# Momen Cursor Rules - Build Custom Frontends with Momen Backend-as-a-Service
 
 > **Prebuilt Cursor rules for developing custom frontend applications powered by [Momen.app](https://momen.app) as a headless Backend-as-a-Service (BaaS)**
 
@@ -84,7 +69,7 @@ Copy the entire `.cursor` directory into your project root:
 cp -r .cursor /path/to/your/project/
 ```
 
-### Step 4: Configure MCP Server (Optional)
+### Step 4: Configure MCP Server
 
 The MCP server allows AI to automatically fetch your project's latest schema. To configure in Cursor:
 
@@ -120,7 +105,7 @@ My Momen credentials:
 - Password: your-password
 - Project: my-ecommerce-app (or exId: abc123xyz)
 
-Please fetch my project schema and set up Apollo Client for my Next.js frontend.
+Please fetch my project schema and set up Apollo Client for my react frontend.
 ```
 
 **Build Features**:
