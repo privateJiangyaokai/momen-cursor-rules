@@ -2,7 +2,7 @@
 description: Handling of binary assets such as images, videos and files in momen.app's code component
 alwaysApply: false
 ---
-# Momen.app Code Component: Binary Asset Upload Protocol
+# Momen.app: Binary Asset Upload Protocol
 
 This document describes the required protocol for uploading and referencing binary assets (images, videos, files) in Momen.app code components.
 
