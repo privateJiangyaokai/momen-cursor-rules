@@ -105,31 +105,11 @@ My Momen credentials:
 - Password: your-password
 - Project: my-ecommerce-app (or exId: abc123xyz)
 
-Please fetch my project schema and set up Apollo Client for my react frontend.
-```
+Build an ecommerce website based on the Momen project's backend structure. 
+Use username authentication. 
+Use Stripe publishable key: pk_test_51RQRPTCO2XREqHNZr8Vz0T1CNciMnXCM4I2qxb3ZYOi4GTHtbPnW8OJxGM9GR9L67jEngDUoBTMWOdr9W2AzMoKa00AzoEc7qr
 
-**Build Features**:
-```
-Using my Momen backend (username: your-email@example.com, project: my-blog-app):
-- Build a blog post listing page with pagination
-- Add user authentication with JWT tokens
-- Create a post editor with image upload
-```
-
-**Complex Workflows**:
-```
-My Momen project (exId: xyz789abc, username: your-email@example.com):
-- Build an AI-powered trip itinerary generator
-- Integrate Stripe subscription payments
-- Add real-time notifications via GraphQL subscriptions
-```
-
-**Quick Prototypes**:
-```
-Connect to my Momen backend (project: social-app, username: user@domain.com) and:
-- Create a social media feed with infinite scroll
-- Add like/comment functionality
-- Implement user profiles with avatar upload
++ Other misc requirements
 ```
 
 The AI will use your credentials to authenticate, fetch your project schema, and generate production-ready code that perfectly matches your Momen backend structure!
@@ -320,245 +300,18 @@ query GetPostsWithAuthors($limit: Int) {
 
 **Generated Files**:
 ```
-@.momen/
+.momen/
 ├── momenAccount.json          # Auth token
-├── currentProject             # Active project ID
-└── {projectExId}/
-    ├── dbSchema.sql          # PostgreSQL DDL
-    ├── actionflows.json      # All actionflows
-    └── thirdPartyApis.json   # API definitions
+└── currentProject             # Active project ID
 ```
 
 ## 💡 Usage Examples
 
 ### Example 1: Building a Blog with AI Assistant
 
-**You**: "Create a Next.js blog that fetches posts from Momen backend"
-
-**AI will generate** (using the rules):
-
-```typescript
-// apollo-client.ts
-import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
-
-const projectExId = 'your-project-id';
-const httpUrl = `https://villa.momen.app/zero/${projectExId}/api/graphql-v2`;
-const wssUrl = `wss://villa.momen.app/zero/${projectExId}/api/graphql-subscription`;
-
-export const createApolloClient = (token?: string) => {
-  const wsClient = new SubscriptionClient(wssUrl, {
-    reconnect: true,
-    connectionParams: token ? { authToken: token } : {},
-  });
-
-  const wsLink = new WebSocketLink(wsClient);
-  const httpLink = new HttpLink({ 
-    uri: httpUrl,
-    headers: token ? { Authorization: `Bearer ${token}` } : {}
-  });
-
-  const splitLink = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query);
-      return (
-        definition.kind === 'OperationDefinition' &&
-        definition.operation === 'subscription'
-      );
-    },
-    wsLink,
-    httpLink
-  );
-
-  return new ApolloClient({
-    link: splitLink,
-    cache: new InMemoryCache(),
-  });
-};
-
-// posts-page.tsx
-import { useQuery, gql } from '@apollo/client';
-
-const GET_POSTS = gql`
-  query GetPosts($limit: Int) {
-    post(
-      limit: $limit
-      order_by: { created_at: desc }
-      where: { deleted_at: { _is_null: true } }
-    ) {
-      id
-      title
-      content
-      created_at
-      author {
-        id
-        name
-        avatar_url
-      }
-      post_tags {
-        tag {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
-export default function PostsPage() {
-  const { data, loading, error } = useQuery(GET_POSTS, {
-    variables: { limit: 10 }
-  });
-
-  if (loading) return <div>Loading posts...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  return (
-    <div>
-      {data.post.map(post => (
-        <article key={post.id}>
-          <h2>{post.title}</h2>
-          <p>By {post.author.name}</p>
-          <div>{post.content}</div>
-          <div>
-            {post.post_tags.map(pt => (
-              <span key={pt.tag.id}>{pt.tag.name}</span>
-            ))}
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-```
-
-### Example 2: Adding Stripe Payment
-
-**You**: "Add Stripe checkout for my subscription product"
-
-**AI will generate**:
-
-```typescript
-// payment-checkout.tsx
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { useMutation, gql } from '@apollo/client';
-
-// AI knows to get publishable key from project schema
-const stripePromise = loadStripe('pk_test_...');
-
-const CREATE_SUBSCRIPTION_PAYMENT = gql`
-  mutation CreateSubscriptionPayment($input: CreatePaymentInput!) {
-    create_subscription_payment(input: $input) {
-      client_secret
-      order_id
-    }
-  }
-`;
-
-export function PaymentCheckout({ planId, userId }) {
-  const [createPayment] = useMutation(CREATE_SUBSCRIPTION_PAYMENT);
-  const [clientSecret, setClientSecret] = useState(null);
-
-  const handleCheckout = async () => {
-    const { data } = await createPayment({
-      variables: {
-        input: {
-          plan_id: planId,
-          user_id: userId,
-        }
-      }
-    });
-    setClientSecret(data.create_subscription_payment.client_secret);
-  };
-
-  return (
-    <div>
-      {!clientSecret ? (
-        <button onClick={handleCheckout}>Subscribe Now</button>
-      ) : (
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm />
-        </Elements>
-      )}
-    </div>
-  );
-}
-```
-
-### Example 3: Using AI Agent for Document Q&A
-
-**You**: "Build a document chat interface using Momen's AI agent"
-
-**AI will generate** (complete RAG implementation):
-
-```typescript
-const INVOKE_AI_AGENT = gql`
-  mutation InvokeAIAgent($agentId: String!, $input: Json!) {
-    fz_invoke_ai_agent(
-      agentId: $agentId
-      input: $input
-      streamable: true
-    )
-  }
-`;
-
-export function DocumentChat({ documentId }) {
-  const [messages, setMessages] = useState([]);
-  const [invokeAgent] = useMutation(INVOKE_AI_AGENT);
-
-  const handleAsk = async (question: string) => {
-    const { data } = await invokeAgent({
-      variables: {
-        agentId: "your-ai-agent-id",
-        input: {
-          question,
-          document_id: documentId,
-          temperature: 0.7
-        }
-      }
-    });
-    
-    // Handle streaming response
-    const response = data.fz_invoke_ai_agent;
-    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-  };
-
-  return (
-    <div className="chat-container">
-      {messages.map((msg, i) => (
-        <div key={i} className={`message ${msg.role}`}>
-          {msg.content}
-        </div>
-      ))}
-      <input
-        type="text"
-        onSubmit={(e) => handleAsk(e.currentTarget.value)}
-        placeholder="Ask a question about the document..."
-      />
-    </div>
-  );
-}
-```
+**You**: "Create a Next.js blog based on the Momen project's backend whose exId is abc91xyY"
 
 ## 🛠️ Advanced Workflows
-
-### Using MCP Server for Multi-Project Development
-
-The MCP server integration allows AI to automatically manage multiple Momen projects:
-
-**You**: "Switch to my e-commerce project and fetch the latest schema"
-
-**AI will**:
-1. Check `@.momen/momenAccount.json` for auth token
-2. Call MCP server to list your projects
-3. Let you select the e-commerce project
-4. Download complete schema (DB, actionflows, APIs)
-5. Save everything to `@.momen/e-commerce-project-id/`
-6. Update `@.momen/currentProject`
-7. Start generating code using the new schema
 
 ### Combining Multiple Rules
 
@@ -586,8 +339,8 @@ Rules have `alwaysApply` metadata:
 
 Use MCP server to refresh schema whenever your Momen project structure changes:
 
-**You**: "Refresh my Momen schema"  
-**AI**: Fetches latest and updates local files
+**You**: "Refresh my Momen project's schema"  
+**AI**: Fetches project's latest schema into context
 
 ### 3. Leverage Actionflows for Complex Logic
 
@@ -658,21 +411,7 @@ const POST_SUBSCRIPTION = gql`
 
 **Problem**: AI doesn't seem to use the rules  
 **Solutions**:
-1. Ensure `.cursor/rules/` directory is in project root
-2. Check file extensions are `.mdc`
-3. Reload Cursor window (Cmd/Ctrl + Shift + P → "Reload Window")
-4. Verify frontmatter format is correct
-5. Be explicit in prompts: "Using Momen backend rules, create..."
-
-### MCP Server Connection Issues
-
-**Problem**: Cannot fetch project schema  
-**Solutions**:
-1. Check MCP server URL: `https://momen-mcp.momen.app/mcp`
-2. Verify auth token in `@.momen/momenAccount.json` is valid
-3. Restart MCP client (Claude Desktop, etc.)
-4. Check internet connection
-5. Manually log in again if token expired
+Be explicit in prompts: "Using Momen backend rules, create..."
 
 ### GraphQL Errors
 
@@ -787,4 +526,3 @@ Special thanks to:
 ---
 
 *Last Updated: November 2025*  
-*Momen Backend API Version: GraphQL v2*

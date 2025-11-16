@@ -152,16 +152,16 @@ AVOID assembling args inside the query.
 Use the momen MCP server for this. 
 
 ### Database
-Always ensure @momen-database-gql-api-rules is read before writing code to interact with the databse. 
+Always ensure momen-database-gql-api-rules is read before writing code to interact with the databse. 
 
 ### Third-party API
-Always ensure @momen-tpa-gql-api-rules is read before writing code to interact with any Third-party APIs.
+Always ensure momen-tpa-gql-api-rules is read before writing code to interact with any Third-party APIs.
 
 ### Actionflow
-Always ensure @momen-actionflow-gql-api-rules is read before writing code to interact with any Actionflows.
+Always ensure momen-actionflow-gql-api-rules is read before writing code to interact with any Actionflows.
 
 ### AI Agent
-Always ensure @momen-ai-agent-gql-api-rules is read before writing code to interact with any AI Agents.
+Always ensure momen-ai-agent-gql-api-rules is read before writing code to interact with any AI Agents.
 
 ### Subscriptions
 
@@ -209,7 +209,7 @@ You will get answers similar to this:
 Media and other files are not stored in the PostgreSQL database but in a dedicated Object Storage system.  
 When using them as input / parameter in other parts of the system, always use the corresponding id instead. Urls can not be used as inputs in place of a file / image / video.  
 When using a media file on the frontend, make sure to fetch its `url` subfield. 
-Refer to @momen-binary-asset-upload-rules
+Refer to momen-binary-asset-upload-rules
 
 ## Permission
 All GraphQL fields have permission control based on the current logged in user's role(s). If an attempted access violates permission policies, an error will be given within the GraphQL response. The key to look for here is the 403 error code.   

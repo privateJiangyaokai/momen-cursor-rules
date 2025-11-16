@@ -200,7 +200,7 @@ Their output will be no different from plain-text only outputs, regardless of th
   }
 }
 ```
-The ids for FZ_Image in images represent the ids in momen's file / asset system. Refer to @momen-binary-asset-upload-rules
+The ids for FZ_Image in images represent the ids in momen's file / asset system. Refer to momen-binary-asset-upload-rules
 
 
 ## Invocation process for structured output
