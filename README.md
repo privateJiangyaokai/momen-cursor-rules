@@ -27,8 +27,7 @@ This repository contains **8 specialized rule files** in `.cursor/rules/` that t
 ├── momen-tpa-gql-api-rules.mdc         # Third-party API integration
 ├── momen-ai-agent-gql-api-rules.mdc    # AI agent capabilities
 ├── momen-stripe-payment-rules.mdc      # Payment processing
-├── momen-binary-asset-upload-rules.mdc # File management
-└── momen-mcp-rules.mdc                 # Schema fetching via MCP
+└── momen-binary-asset-upload-rules.mdc # File management
 ```
 
 ## 🚀 Quick Start
@@ -82,7 +81,11 @@ The MCP server allows AI to automatically fetch your project's latest schema. To
 {
   "mcpServers": {
     "momen": {
-      "url": "https://momen-mcp.momen.app/mcp"
+      "command": "npx",
+      "args": [
+        "-y",
+        "momen-mcp"
+      ]
     }
   }
 }
@@ -287,16 +290,6 @@ query GetPostsWithAuthors($limit: Int) {
 - Audio files
 - General binary data
 
-### 8. `momen-mcp-rules.mdc`
-
-**Purpose**: Automatic schema fetching via MCP server  
-**Teaches AI**:
-- Authenticating with Momen MCP server
-- Fetching project list
-- Downloading latest database schema
-- Extracting actionflow definitions
-- Saving schema as PostgreSQL DDL
-- Managing multi-project workflows
 
 **Generated Files**:
 ```
