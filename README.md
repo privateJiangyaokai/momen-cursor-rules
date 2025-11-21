@@ -103,16 +103,13 @@ Open your project in Cursor and provide AI with your Momen credentials to start 
 
 **Initial Setup**:
 ```
-My Momen credentials:
-- Username: your-email@example.com
-- Password: your-password
-- Project: my-ecommerce-app (or exId: abc123xyz)
+My Momen project is:  my-ecommerce-app (or exId: abc123xyz)
 
 Build an ecommerce website based on the Momen project's backend structure. 
 Use username authentication. 
-Use Stripe publishable key: pk_test_51RQRPTCO2XREqHNZr8Vz0T1CNciMnXCM4I2qxb3ZYOi4GTHtbPnW8OJxGM9GR9L67jEngDUoBTMWOdr9W2AzMoKa00AzoEc7qr
 
 + Other misc requirements
+e.g. Use Stripe publishable key: pk_test_51RQRPTCO2XREqHNZr8Vz0T1CNciMnXCM4I2qxb3ZYOi4GTHtbPnW8OJxGM9GR9L67jEngDUoBTMWOdr9W2AzMoKa00AzoEc7qr
 ```
 
 The AI will use your credentials to authenticate, fetch your project schema, and generate production-ready code that perfectly matches your Momen backend structure!
