@@ -84,7 +84,7 @@ The MCP server allows AI to automatically fetch your project's latest schema. To
       "command": "npx",
       "args": [
         "-y",
-        "momen-mcp"
+        "momen-mcp@latest"
       ]
     }
   }
