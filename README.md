@@ -294,8 +294,8 @@ query GetPostsWithAuthors($limit: Int) {
 **Generated Files**:
 ```
 .momen/
-├── momenAccount.json          # Auth token
-└── currentProject             # Active project ID
+├── credentials.json
+└── config.json
 ```
 
 ## 💡 Usage Examples
