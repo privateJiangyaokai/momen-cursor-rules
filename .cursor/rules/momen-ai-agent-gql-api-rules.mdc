@@ -232,3 +232,22 @@ e.g.
   "explanation": "No existing events were found on 2025-10-24 in America/Los_Angeles, so there are no conflicts. Preference is mornings; scheduled 08:00–08:10 at Los Altos High school. With no adjacent events, transit checks to previous and next events are trivially satisfied."
 }
 ```
+
+## Continuing conversation
+After AI Agent returns result (status = COMPLETED), the conversation can be continued by calling fz_zai_send_ai_message. 
+The subscription of fz_zai_listen_conversation_result on the same conversationId will continue to receive messages.  
+e.g.  
+  mutation request:  
+  ```gql
+  mutation continue($conversationId: Long!, $text: String) {
+    fz_zai_send_ai_message(conversationId: $conversationId, text: $text)
+  }
+  ```
+  Variables: 
+  ```json
+  {
+    "conversationId": 1480,
+    "text": "make it about the sun"
+  }
+  ```
+The response from the corresponding fz_zai_listen_conversation_result will then continue. Similar to what happens after one initiates a converation with an AI agent, going through the same IN_PROGRESS -> (STREAMING) -> COMPLETED status transition. 
