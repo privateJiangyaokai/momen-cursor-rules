@@ -1,10 +1,10 @@
 ---
-description: Handling of binary assets such as images, videos and files in momen.app's code component
+description: Handling of binary assets such as images, videos and files with momen.app's backend
 alwaysApply: false
 ---
 # Momen.app: Binary Asset Upload Protocol
 
-This document describes the required protocol for uploading and referencing binary assets (images, videos, files) in Momen.app code components.
+This document describes the required protocol for uploading and referencing binary assets (images, videos, files) with Momen.app backend.
 
 ## Overview
 All binary assets (images, videos, files) are stored on object storage services (e.g., S3). Their storage path is recorded in Momen's database. **When referencing these assets in other tables, you must store only the asset's Momen ID, not its path or URL.**
