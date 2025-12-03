@@ -290,7 +290,7 @@ query GetPostsWithAuthors($limit: Int) {
 
 **Generated Files**:
 ```
-.momen/
+.momen-mcp/
 ├── credentials.json
 └── config.json
 ```
