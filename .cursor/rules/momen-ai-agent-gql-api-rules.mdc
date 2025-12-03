@@ -251,3 +251,20 @@ e.g.
   }
   ```
 The response from the corresponding fz_zai_listen_conversation_result will then continue. Similar to what happens after one initiates a converation with an AI agent, going through the same IN_PROGRESS -> (STREAMING) -> COMPLETED status transition. 
+
+## Stopping conversation
+For converations still in "IN_PROGRESS" or "STREAMING" states, they can be stopped by calling fz_zai_stop_responding, which always returns true. 
+When called on conversations with "COMPLETED" state, a 400 error will be thrown inside the `errors` field of the GraphQL response. 
+e.g.  
+  mutation request:  
+  ```gql
+  mutation continue($conversationId: Long!) {
+    fz_zai_stop_responding(conversationId: $conversationId)
+  }
+  ```
+  Variables: 
+  ```json
+  {
+    "conversationId": 1480
+  }
+  ```
