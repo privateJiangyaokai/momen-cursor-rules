@@ -17,7 +17,7 @@ Momen is a full-stack no-code development platform, but its backend architecture
   - **WebSocket URL**: wss://villa.momen.app/zero/{projectExId}/api/graphql-subscription
 
 ## Communicating with the backend
-When using Typescript, to communicate with a Momen.app project's backend server's GraphQL API, use Apollo GraphQL + subscriptions-transport-ws. 
+When using Typescript, to communicate with a Momen.app project's backend server's GraphQL API, use Apollo GraphQL v3.13.9 + subscriptions-transport-ws, NEVER use graphql-ws as Momen.app is NOT compatible with it. 
 ### Reference Implementation
 ```typescript
 import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
@@ -147,6 +147,30 @@ mutation CreateOrder($args: Json!) {
 }
 ```
 AVOID assembling args inside the query. 
+
+### Exclusive List of Valid GraphQL Scalar Types
+BigDecimal
+Date
+Decimal
+Json
+JsonObject
+Long
+Map_Long_StringScalar
+Map_String_List_StringScalar
+Map_String_MsExcelSheetDataScalar
+Map_String_MsExcelSheetDataV2Scalar
+Map_String_ObjectScalar
+Map_String_StringScalar
+Map_String_TableMappingScalar
+OffsetDateTime
+_int8
+bigint
+date
+geography
+jsonb
+timestamptz
+timetz
+universal_scalar
 
 ### Backend Structure Discovery
 Use the momen MCP server for this. 
